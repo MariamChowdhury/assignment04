@@ -6,6 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Flight Booking</title>
     <!-- Fonts -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.css" rel="stylesheet" />
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Roboto:wght@400;500;700&display=swap"
         rel="stylesheet">
@@ -32,7 +34,7 @@
             <h3>Booking Flights</h3>
             <div class="input-group">
                 <label for="">Flying From</label>
-                <input class="inp-style" type="text" name="" placeholder="Dhake, Bangladesh">
+                <input class="inp-style" type="text" name="" placeholder="Dhaka, Bangladesh">
             </div>
             <div class="input-group">
                 <label for="">Flying To</label>
@@ -51,20 +53,22 @@
             <div class="input-group f-class">
                 <div>
                     <label for="">First Class ($150)</label>
-                    <input class="inp-style inp-width" type="number" name="">
+                    <input id="first-class-count" class="inp-style inp-width" type="text"  value="0">
                 </div>
-                <div class="plus-minus-btn">
-                    <p>+ -</p>
-                </div>
+            <div class="plus-minus-btn">
+                <button id="first-class-decrease" class="btn btn-primary" onclick="numberOfCount('first',false)"> <i class="fas fa-minus"></i></button>
+                <button id="first-class-increase" onclick="numberOfCount('first',true)" class="btn btn-primary"><i class="fas fa-plus" ></i></button>
+            </div>
             </div>
             
             <div class="input-group f-class">
                 <div>
                     <label for="">Economy ($100)</label>
-                    <input class="inp-style inp-width" type="number" name="">
+                    <input id="economy-class-count"  class="inp-style inp-width" type="number" name="" value="0">
                 </div>
                 <div class="plus-minus-btn">
-                    <p> <span>+</span> <span>-</span> </p>
+                    <button id="economy-class-decrease" onclick="numberOfCount('economy',false)" class="btn btn-primary"> <i class="fas fa-minus"></i></button>
+                <button id="economy-class-increase"  onclick="numberOfCount('economy',true)" class="btn btn-primary"><i class="fas fa-plus"></i></button>
                 </div>
             </div>
             <div class="calculations">
@@ -73,7 +77,7 @@
                         <p>Subtotal</p>
                     </div>
                     <div class="right">
-                        <p>$500</p>
+                        <p>$ <span id="sub-total">00</span></p>
                     </div>
                 </div>
 
@@ -82,7 +86,7 @@
                         <p>Charge 10% VAT</p>
                     </div>
                     <div class="right">
-                        <p>$50</p>
+                        <p>$<span id="vat">00</span></p>
                     </div>
                 </div>
                 <hr>
@@ -91,11 +95,11 @@
                         <h4>Total</h4>
                     </div>
                     <div class="right">
-                        <p>$550</p>
+                        <p>$<span id="total">00</span></p>
                     </div>
                 </div>
             </div>
-            <button class="btn-style">Book Now</button>
+            <button class="btn-style" >Book Now</button>
         </div>
 
         <div class="booking-content">
@@ -105,6 +109,33 @@
     </section>
 
     <!--Thank You-->
+    <script>
+        function numberOfCount(type,isIncrease){
+        const count= document.getElementById(type + '-class-count');
+        const countNumber=parseInt(count.value);
+        let finalCount=countNumber;
+        if(isIncrease==true){
+          finalCount=countNumber+1;
+        }
+        if(isIncrease==false&&countNumber>0){
+            finalCount=countNumber-1;
+        }
+        count.value=finalCount;
+        calculateTotal();
+        }
+    function calculateTotal(){
+    const firstClassInput=document.getElementById('first-class-count');
+    const firstClassCount=parseInt(firstClassInput.value);
+    const economyClassInput=document.getElementById('economy-class-count');
+    const economyClassCount=parseInt(economyClassInput.value);
+    const totalPrice=firstClassCount*150+economyClassCount*100;
+    document.getElementById('sub-total').innerText=totalPrice;
+    const vat=totalPrice*0.1;
+    document.getElementById('vat').innerText=vat;
+    const total=totalPrice+vat;
+    document.getElementById('total').innerText=total;
+}
+    </script>
 </body>
 
 </html>
